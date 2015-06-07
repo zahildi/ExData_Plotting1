@@ -11,13 +11,14 @@ plot4 <- function(){
     PowerData$datetime <- as.POSIXct(paste(PowerData$Date, PowerData$Time),
                                 format="%d/%m/%Y %H:%M:%S")
     
-    par(mfcol = c(2, 2))
+    png(file="plot4.png",width=480,height=480)
+    par(mfcol = c(2, 2), cex=0.8)
     
     with(PowerData, {
         ## first plot, in top left
         
         plot(datetime, Global_active_power, type="l",
-             ylab="Global Active Power (kilowatts)", xlab ="")
+             ylab="Global Active Power", xlab ="")
         
         ## second plot, in lower left
     
@@ -28,8 +29,8 @@ plot4 <- function(){
         points(datetime, Sub_metering_2, type="l",col="red")
         points(datetime, Sub_metering_3, type="l",col="blue")
         
-        legend("topright", lty=c(1,1), col=c("black","red" ,"blue"), 
-               cex=0.8, 
+        legend("topright",  lty=c(1,1), col=c("black","red" ,"blue"), 
+               bty="n", y.intersp = 1, 
                legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
         
         ## third plot, in top right 
@@ -42,7 +43,7 @@ plot4 <- function(){
     })
     
     ## copy to a png file
-    dev.copy(png, file = "plot4.png")
+    ## dev.copy(png, file = "plot4.png")
     dev.off()
     
     par(mfcol = c(1, 1))
