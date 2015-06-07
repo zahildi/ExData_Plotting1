@@ -4,10 +4,12 @@ plot3 <- function(){
     library("lubridate")
 
     ## open Power Data, using library sqldf
+    ## data is stored in a data directory in the Working Directory
     PowerData <- read.csv.sql("./data/household_power_consumption.txt", 
                     sql= "select * from file where Date in ('1/2/2007', '2/2/2007')",
                     sep=";", header=TRUE)
     
+    ## Create a POSIXct datetime field from the Date and Time fields
     PowerData$datetime <- as.POSIXct(paste(PowerData$Date, PowerData$Time),
                                 format="%d/%m/%Y %H:%M:%S")
     

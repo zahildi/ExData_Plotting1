@@ -4,24 +4,25 @@ plot4 <- function(){
     library("lubridate")
 
     ## open Power Data, using library sqldf
+    ## data is stored in a data directory in the Working Directory
     PowerData <- read.csv.sql("./data/household_power_consumption.txt", 
                     sql= "select * from file where Date in ('1/2/2007', '2/2/2007')",
                     sep=";", header=TRUE)
     
+    ## Create a POSIXct datetime field from the Date and Time fields
     PowerData$datetime <- as.POSIXct(paste(PowerData$Date, PowerData$Time),
                                 format="%d/%m/%Y %H:%M:%S")
     
+    ## Open a png file, and set global parameters
     png(file="plot4.png",width=480,height=480)
     par(mfcol = c(2, 2), cex=0.8)
     
     with(PowerData, {
-        ## first plot, in top left
-        
+        ## first plot, in top left     
         plot(datetime, Global_active_power, type="l",
              ylab="Global Active Power", xlab ="")
         
-        ## second plot, in lower left
-    
+        ## second plot, in lower left 
         plot(datetime, Sub_metering_1, type="n",
              ylab="Energy sub metering", xlab ="")
         
@@ -42,10 +43,9 @@ plot4 <- function(){
     ## close the plot
     })
     
-    ## copy to a png file
-    ## dev.copy(png, file = "plot4.png")
     dev.off()
     
+    ## reset the mfcol to a single plot
     par(mfcol = c(1, 1))
     
     print("Plot saved as plot4.png in working directory")
